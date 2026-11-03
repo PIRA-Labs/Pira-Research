@@ -90,3 +90,5 @@ repositories.
 ---
 
 *Last updated: 2026-10-30*
+
+- `NEXT_OBJECTIVES.md` — Precise statement of the next 13 experimental and engineering objectives, with current state explicitly noted as not completed
