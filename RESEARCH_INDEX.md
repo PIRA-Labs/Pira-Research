@@ -23,6 +23,7 @@ Quick-reference map to every document in this archive.
 ### Architecture and design
 - `docs/TAAK-PHYSICAL-AGENT-ARCHITECTURE.md` — Capability registry, bridge levels, trust boundaries, evidence labels
 - `experiments/FORMAL-VELA-ANDROID-MIAU-MILESTONE.md` — **Formal milestone record: artifact preservation, evidence register, methodology, knowledge transfer, security foundation, release inventory**
+- `RESEARCH_ROADMAP.md` — Prioritized research plan with P0/P1/P2/P3 items, evidence criteria, dependencies, and 4 research themes — **Formal milestone record: artifact preservation, evidence register, methodology, knowledge transfer, security foundation, release inventory**
 - `README.md` — Archive overview and PIRA relationship
 
 ### Decisions
