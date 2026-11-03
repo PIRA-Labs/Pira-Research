@@ -1,0 +1,94 @@
+XIAOMI XMS WEARABLE SERVICE — DECOMPILED ARTIFACT REFERENCE
+============================================================
+
+SOURCE: /Users/valedev/Documents/taak-companion/research/wearable-xms-important.txt
+ORIGINAL: JADX decompilation of mi-fitness-3.57.0i (com.xiaomi.wearable)
+DEVICE: Redmi Watch 4, HyperOS 2.2.86 / Vela
+DATE: August 31 - September 1, 2026
+
+NOTE: This file contains ONLY analysis and references. Full decompiled source
+code is NOT included in this repository. The Xiaomi Mi Fitness APK is
+proprietary. We document findings and conclusions here; we do not redistribute
+the decompiled code or the original APK.
+
+KEY FILE IDENTIFIED
+-------------------
+com/xiaomi/xms/wearable/WearableXmsService.java
+(from classes12.dex in mi-fitness-3.57.0i-base.apk)
+
+SERVICE OVERVIEW
+----------------
+WearableXmsService is a bound Android Service in com.xiaomi.wearable.
+It implements the XMS wearable message bus over Binder.
+
+ACTION: com.xiaomi.wearable.XMS_WEARABLE_SERVICE
+
+PACKET DISPATCH (handlePacket)
+--------------------------------
+Packet ID   Meaning                        Evidence
+6           app status request              CODE-MAPPED
+9           wear app status                 CODE-MAPPED
+22          syncWearAppStatus               CODE-MAPPED
+79          report basic status             CODE-MAPPED
+
+Packet 6 flow:
+  intent.getStringExtra(PARAM_PACKET_ID) == 6
+  → extract package name + fingerprint
+  → DeviceModelExtKt.syncPhoneAppStatus(model, mhr, isServiceConnected(pkg))
+
+PACKET 20 HANDLERS (DeviceDataHandler / XmsDataHandler)
+---------------------------------------------------------
+The incoming path processes type=101 packets containing nested type=20 packets.
+
+20/6  request phone app status     — observed at: DeviceDataHandler-handlePacket:type=101,packet type=20,packet id=6,did=808263400
+20/7  syncPhoneAppStatus            — response path
+20/8  sendPhoneMessage              — phone → watch message channel (CODE-MAPPED, semantics not fully verified)
+20/9  receive phone → watch payload  — reverse direction
+20/10 WeChat-related                — CODE-MAPPED
+20/11 WeChat license                — CODE-MAPPED
+
+CRITICAL GATE: isSupportThirdPartyApp
+---------------------------------------
+Location: DeviceModelExtKt / isSupportThirdPartyApp(wearableDeviceModel)
+
+Logic:
+  return isSupportFeature(model, Feature.THIRD_PARTY_APP)
+      || isSupportFeature(model, Feature.THIRD_PARTY_APP_NO_MARKET)
+
+Where isSupportFeature does:
+  List<String> features = deviceModel.getProduct().getFeatures()
+  return features != null && features.contains(feature)
+
+Redmi Watch 4 product features (observed):
+  Contains: watchface, market, launcher, ...
+  Does NOT contain: thirdparty_app, third_party_no_market
+
+Result: isSupportThirdPartyApp(Redmi Watch 4) == false
+
+This is the gate that causes XmsDataHandler.handlePacket(20/6) to return
+false BEFORE reaching third-party app handlers. The packet arrives physically
+but Mi Fitness discards it at the application layer.
+
+EVIDENCE
+--------
+Log line observed on NODE-01:
+  DeviceDataHandler-handlePacket:type=101,packet type=20,packet id=6,did=808263400
+  XmsDataHandler handlePacket 20 6 false
+
+Source commit reference:
+  taak-companion@5295f081b "milestone: physical Redmi Watch 4 bidirectional bridge working"
+
+CONCLUSION
+----------
+The Mi Fitness feature gate is a SOFTWARE POLICY, not a hardware or protocol
+limitation. The watch transmits, Bluetooth delivers, and Mi Fitness receives
+the packet — but the application-layer capability check prevents delivery to
+third-party apps via the public API.
+
+RECOMMENDATION
+--------------
+Do not attempt to modify or patch Mi Fitness. The safer and more maintainable
+path is to bypass Mi Fitness for the receive direction using an alternative
+transport (e.g., Gadgetbridge with Xiaomi protobuf support, or direct BLE
+protocol handling). See WATCH-01-VELA-REVERSE-ENGINEERING.md for the
+Gadgetbridge investigation.

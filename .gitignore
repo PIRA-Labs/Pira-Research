@@ -1,0 +1,32 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Secrets (defense in depth)
+.env
+.env.*
+*.key
+*.pem
+*.keystore
+*.jks
+secrets/
+**/secrets/
+
+# Build artifacts (if any appear later)
+dist/
+build/
+node_modules/
+
+# Large binaries (keep research clean)
+*.apk
+*.aar
+*.rpk
+*.zip
+*.tar.gz
+*.log
