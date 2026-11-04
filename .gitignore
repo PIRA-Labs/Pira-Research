@@ -8,6 +8,10 @@ Thumbs.db
 *.swp
 *.swo
 
+# Private evidence / raw artifacts
+.evidence/
+**/.evidence/
+
 # Secrets (defense in depth)
 .env
 .env.*
