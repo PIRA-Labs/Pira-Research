@@ -24,6 +24,9 @@ discoverable.
 
 - **NODE-01** — how an inexpensive Android phone (HONOR X6) became an
   always-on Hermes agent node running Termux + Debian + proot-distro
+- **Android Body** — remote physical actuation via native Termux:API TTS,
+  vibration, toast, notifications, and battery telemetry, formalized as
+  reusable Hermes skills (`habla`, `android_body`)
 - **WATCH-01** — reverse engineering of Xiaomi's XMS wearable protocol on a
   Redmi Watch 4, including the feature gate that blocks third-party apps
 - **Bidirectional bridge** — the MIAU experiment that achieved physical
@@ -96,11 +99,15 @@ Pira-Research/
 ├── RESEARCH_INDEX.md          ← quick reference to all documents
 ├── TIMELINE.md                ← chronological reconstruction
 ├── docs/
+│   ├── CHECKPOINTS.md         ← CP-00 through CP-04 overview
+│   ├── SCIENTIFIC_OVERVIEW.md ← research problem, methodology, findings
 │   ├── NODE-01-ANDROID-HERMES-RUNBOOK.md
 │   ├── TAAK-PHYSICAL-AGENT-ARCHITECTURE.md
 │   ├── WATCH-01-VELA-REVERSE-ENGINEERING.md
-│   └── TAAK-WATCH-01-ARTIFACTS-REPRODUCIBILITY-RUNBOOK-2026-08-31.md
+│   ├── TAAK-WATCH-01-ARTIFACTS-REPRODUCIBILITY-RUNBOOK-2026-08-31.md
+│   └── android-body-artifacts/ ← sanitized public copies of recovered NODE-01 artifacts
 ├── experiments/
+│   ├── android-body-2026-08-29.md ← CP-01 formal record
 │   ├── TAAK-WATCH-01-LAB-BITACORA-2026-08-31.md
 │   ├── PANTERA_SANSON_LAB_2026-09-01.md
 │   ├── result-2026-09-01-miau-rx.md
@@ -115,15 +122,26 @@ Pira-Research/
 
 ## How to read this archive
 
-Start with `RESEARCH_INDEX.md` for a structured overview, then `TIMELINE.md`
-for the chronological journey. Dive into specific topics via `docs/`.
+Start with `RESEARCH_INDEX.md` for a structured overview, then `docs/CHECKPOINTS.md`
+for the experimental progression, then `TIMELINE.md` for the chronological
+journey. Dive into specific topics via `docs/` and `experiments/`.
 
-If you are reviewing PIRA for the Nebius AI Hackathon, the most relevant
+Artifact recovery:
+- `experiments/android-body-2026-08-29.md` — CP-01 formal record with evidence chain
+- `docs/android-body-artifacts/` — sanitized public copies of recovered NODE-01 artifacts
+- `.evidence/android-body-2026-08-29/` — private raw evidence with SHA-256 verification
+
+If you are reviewing PIRA for evidence or research quality, the most relevant
 documents are:
 
-1. `TIMELINE.md` — the research journey in one document
-2. `experiments/PANTERA_SANSON_LAB_2026-09-01.md` — the MIAU bidirectional bridge
-3. `docs/TAAK-PHYSICAL-AGENT-ARCHITECTURE.md` — capability registry and trust boundaries
+1. `docs/SCIENTIFIC_OVERVIEW.md` — concise research formulation
+2. `docs/CHECKPOINTS.md` — CP-00 through CP-04 with evidence status
+3. `experiments/android-body-2026-08-29.md` — CP-01 formal record
+4. `experiments/FORMAL-VELA-ANDROID-MIAU-MILESTONE.md` — CP-02 formal record
+5. `docs/TAAK-PHYSICAL-AGENT-ARCHITECTURE.md` — capability registry and trust boundaries
+
+If you are reviewing PIRA for the Nebius AI Hackathon, the implementation
+focus is in `PIRA-Labs/Pira-Android`, not in this archive.
 
 ---
 
