@@ -30,24 +30,24 @@
 
 **Research question:** Can an Android-hosted agent execute native physical capabilities in response to remote instructions and encapsulate those capabilities as reusable skills?
 
-**Status:** Historical experiment completed as reported; independently verifiable from Telegram evidence, with some missing source artifacts.
+**Status:** Historical experiment completed; artifacts recovered and verified from NODE-01 during this mission.
 
 **Evidence highlights:**
-- August 28–29 Telegram conversations: native TTS via `termux-tts-speak`
-- Recovery of `android_body.sh` reported in chat
-- Live tests: TTS (`es-MX`), vibration, toast, notification, battery telemetry
-- Hermes skill updates: `habla` and `android_body`
-- Operator confirmation of speaker output
+- August 28–29 Telegram conversations: operator requests native speaker output; agent initially returns a Telegram voice attachment, then switches to native TTS
+- Live NODE-01 filesystem recovery on 2026-11-03:
+  - `/root/.hermes/scripts/android_body.sh`
+  - `/root/.hermes/skills/devops/habla/SKILL.md`
+  - `/root/.hermes/skills/devops/android_body/SKILL.md`
+- Script/tests confirmed by operator chat report: TTS (`es-MX`), vibration, toast, notification, battery telemetry
+- Reusable Hermes skills authored: `habla` and `android_body`
+- Operator confirmation of physical speaker output
 
 **Primary documents:**
 - `experiments/android-body-2026-08-29.md`
+- `docs/android-body-artifacts/` — sanitized public copies with provenance and redaction notes
+- `.evidence/android-body-2026-08-29/` — private raw copies excluded from Git; SHA-256 verified
 - `docs/NODE-01-ANDROID-HERMES-RUNBOOK.md` — Section 8
 - `TIMELINE.md` — Phase 1 entries
-
-**Missing artifacts:**
-- Original `android_body.sh`
-- Original `habla/SKILL.md`
-- Original `android_body/SKILL.md`
 
 **Relationship to PIRA:** Established that physical capabilities could be wrapped as controlled scripts and formalized as skills, directly prefiguring PIRA’s capability-registry and trusted-executor model.
 
@@ -149,7 +149,7 @@ All checkpoints share evidence labels:
 - **Verified** — hardware/runtime observation
 - **Agent-reported** — agent-claimed outcome; corroborated but not independently re-run
 - **Code-supported** — source exists and describes capability
-- **Missing artifact** — claimed but not yet recovered
+- **Recovered artifact** — historical source recovered and preserved with provenance
 - **Unverified** — target with no completed evidence
 
 ---

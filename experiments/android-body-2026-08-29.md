@@ -116,18 +116,20 @@ The agent’s execution path can be summarized as:
 
 | Step | Evidence | Source | Confidence | Date |
 |------|----------|--------|------------|------|
-| Remote instruction | Telegram message IDs in `messages.html` | Chat export | Verified | 2026-08-29 |
-| Initial Telegram voice attachment | Agent reply with edge-TTS output | Chat export | Verified | 2026-08-29 |
-| Clarification of native-TTS intent | Operator message distinguishing attachment from speaker | Chat export | Verified | 2026-08-29 |
-| Filesystem search for prior artifacts | Agent reports searching sessions/filesystem | Chat export | Agent-reported | 2026-08-29 |
-| Recovery of `android_body.sh` | Live read from NODE-01 during this mission; timestamp `2026-08-29 20:34:50 UTC` | Device filesystem + chat | Verified | 2026-08-29 |
-| Native TTS execution | `android_body.sh` invokes `termux-tts-speak` directly; speaker output reported in chat | Script + chat export | Code-supported / Agent-reported | 2026-08-29 |
-| `habla` skill update | Live read from NODE-01; timestamp `2026-08-29 20:35:57 UTC` | Device filesystem + chat | Verified | 2026-08-29 |
-| `android_body` skill update | Live read from NODE-01; timestamp `2026-08-29 20:36:06 UTC` | Device filesystem + chat | Verified | 2026-08-29 |
-| Actuator enumeration | Agent lists available Termux:API binaries | Chat export + `android_body.sh` command set | Cross-confirmed | 2026-08-29 |
-| Live actuator test | Agent reports TTS, vibration, toast, notification, battery | Chat export + `android_body.sh` implementation | Agent-reported / Code-supported | 2026-08-29 |
-| Runbook confirmation | `docs/NODE-01-ANDROID-HERMES-RUNBOOK.md` records helper existed | Repository doc | Cross-confirmed | 2026-10-30 |
-| TIMELINE confirmation | TIMELINE lists TTS + vibration as verified outputs | Repository doc | Cross-confirmed | 2026-10-30 |
+| Remote instruction | Operator request for voice output from NODE-01 speaker | Telegram export `messages.html` | Verified | 2026-08-29 |
+| Initial Telegram voice attachment | Agent reply with edge-TTS voice message | Telegram export `messages.html` | Verified | 2026-08-29 |
+| Clarification of native-TTS intent | Operator distinguishes Telegram voice from native speaker output | Telegram export `messages.html` | Verified | 2026-08-29 |
+| Filesystem search for prior artifacts | Agent reports searching local session DB and filesystem | Telegram export `messages.html` | Agent-reported | 2026-08-29 |
+| Recovery of `android_body.sh` | Live read from NODE-01; file modification timestamp `2026-08-29 20:34:50 UTC` | Device filesystem + Telegram export | Verified | 2026-08-29 |
+| Native TTS execution | `android_body.sh` invokes `termux-tts-speak`; speaker output reported in chat | Script + Telegram export | Code-supported / Agent-reported | 2026-08-29 |
+| `habla` skill update | Live read from NODE-01; timestamp `2026-08-29 20:35:57 UTC` | Device filesystem + Telegram export | Verified | 2026-08-29 |
+| `android_body` skill update | Live read from NODE-01; timestamp `2026-08-29 20:36:06 UTC` | Device filesystem + Telegram export | Verified | 2026-08-29 |
+| Actuator enumeration | Agent lists Termux:API binaries; script exposes `speak`, `greet`, `vibrate`, `toast`, `notify`, `torch`, `battery`, `brightness` | Telegram export + `android_body.sh` | Cross-confirmed | 2026-08-29 |
+| Live actuator test | Agent reports TTS, vibration, toast, notification, battery; operator confirms speaker output | Telegram export + script implementation | Agent-reported / Code-supported | 2026-08-29 |
+| Runbook confirmation | `docs/NODE-01-ANDROID-HERMES-RUNBOOK.md` records helper existed | Repository document | Cross-confirmed | 2026-10-30 |
+| TIMELINE confirmation | TIMELINE lists TTS + vibration as verified outputs | Repository document | Cross-confirmed | 2026-10-30 |
+
+**Telegram identifiers:** relevant message anchors are in `messages.html` under `message46754` through `message46796` on `2026-08-29`. Private conversation content is not reproduced here; only message IDs are noted for provenance.
 
 ### Artifact recovery
 Original artifacts were recovered live from NODE-01 during this mission:
@@ -185,11 +187,11 @@ These statements are **agent-reported** unless independently verified by direct 
 
 ## 9. Limitations
 
-1. **Artifact absence.** The original script and skill files were not found in local search or Git history. Their existence is documented; their exact contents are not recoverable from the current archive.
-2. **Single observer.** The experiment was conducted by one operator and one agent instance. Reproducibility depends on reconstructed instructions rather than preserved automation.
-3. **Device-specific behavior.** Results were observed on HONOR X6 / MagicOS 8. Other Android OEM power-management policies may differ.
-4. **Partial verification.** The chat transcript corroborates execution claims, but independent hardware verification by a second observer is absent.
-5. **Skill semantics.** The exact Hermes skill contract (parameters, triggers, scoping) is not recoverable; only its existence and update events are documented.
+1. **Single observer.** The experiment was conducted by one operator and one agent instance. Reproducibility depends on reconstructed instructions rather than preserved automation.
+2. **Device-specific behavior.** Results were observed on HONOR X6 / MagicOS 8. Other Android OEM power-management policies may differ.
+3. **Partial verification.** The chat transcript corroborates execution claims, but independent hardware verification by a second observer is absent.
+4. **Historical execution model.** The recovered `android_body.sh` is a shell wrapper without authorization checks, parameter schema, or audit trail. It demonstrates capability exposure, not a modern secure execution template.
+5. **Skill-version variance.** The recovered `habla/SKILL.md` documents a `-r 0.9` default and an optional Spanish-locale tweak, while the recovered `android_body.sh` uses `-r 0.95` and already forces `-l es-MX`. The documents may reflect different revision moments; both are preserved as found and are not altered.
 
 ---
 
@@ -199,9 +201,10 @@ These statements are **agent-reported** unless independently verified by direct 
 |--------|-------------|---------------------------|
 | Device specificity | Findings may not generalize | Exact device model and OS documented |
 | Agent self-report | Agent may describe outcomes selectively | Distinguish agent-reported vs operator-confirmed |
-| Missing artifacts | Original code unavailable | Explicit provenance status and confidence labels |
-| Single-channel evidence | Telegram is the only contemporaneous log | Cross-reference with runbook and timeline |
+| Artifact recovery scope | Files recovered from live device, but original creation moment was not observed directly | Timestamps and Telegram context corroborate; exact authoring event remains agent-reported |
+| Single-channel evidence | Telegram is the only contemporaneous log | Cross-reference with runbook, timeline, and recovered files |
 | Temporal drift | Later documents may rewrite early events | Use Telegram message IDs as primary temporal anchors |
+| Skill-version variance | `habla` and `android_body.sh` show slightly different TTS settings | Preserve both as found; note possible revision gap |
 
 ---
 
@@ -242,7 +245,7 @@ The August 29 session is therefore not a footnote in NODE-01 operations. It is t
 - Cross-referenced: `docs/NODE-01-ANDROID-HERMES-RUNBOOK.md`, `TIMELINE.md`
 - Raw Telegram export: **not committed, not reproduced in full**
 - Raw device artifacts: copied to `.evidence/android-body-2026-08-29/`; **not tracked by Git**
-- Sanitized public copies: not yet published; review pending
+- Sanitized public copies: published under `docs/android-body-artifacts/`; provenance and redaction notes in `docs/android-body-artifacts/README-artifact-provenance.md`
 - Sensitive content: excluded from this record
 - Fabricated artifacts: **none**
 
